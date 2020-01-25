@@ -11,27 +11,27 @@ function Square(props){
 }
 
 class Board extends React.Component {
-  renderSquare(i) {
-    return <Square value={this.props.squares[i]} onClick={() => this.props.onClick(i)} />;
+  renderSquare(i, c, r) {
+    return <Square value={this.props.squares[i]} onClick={() => this.props.onClick(i, c, r)} />;
   }
 
   render() {
     return (
       <div>
         <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
+          {this.renderSquare(0, 1, 1)}
+          {this.renderSquare(1, 1, 2)}
+          {this.renderSquare(2, 1, 3)}
         </div>
         <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
+          {this.renderSquare(3, 2, 1)}
+          {this.renderSquare(4, 2, 2)}
+          {this.renderSquare(5, 2, 3)}
         </div>
         <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
+          {this.renderSquare(6, 3, 1)}
+          {this.renderSquare(7, 3, 2)}
+          {this.renderSquare(8, 3, 3)}
         </div>
       </div>
     );
@@ -50,7 +50,7 @@ class Game extends React.Component {
     };
   }
   
-  handleClick(i){
+  handleClick(i, c, r){
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
@@ -65,7 +65,9 @@ class Game extends React.Component {
         squares: squares
       }]),
       stepNumber: history.length,
-      xIsNext: !this.state.xIsNext
+      xIsNext: !this.state.xIsNext,
+      col: c,
+      row: r
     });
   }
 
@@ -83,7 +85,7 @@ class Game extends React.Component {
 
     const moves = history.map((step, move) => {
       const desc = move ? 
-        'Go to move #' + move :
+        'Go to move #' + move + ' (' + this.state.col + ', ' + this.state.row + ')':
         'Go to game start';
       return(
         <li key={move}>
@@ -102,7 +104,7 @@ class Game extends React.Component {
     return (
       <div className="game">
         <div className="game-board">
-          <Board squares={current.squares} onClick={(i) => this.handleClick(i)}/>
+          <Board squares={current.squares} onClick={(i, c, r) => this.handleClick(i, c, r)}/>
         </div>
         <div className="game-info">
           <div>{status}</div>
