@@ -16,9 +16,36 @@ class Board extends React.Component {
   }
 
   render() {
+    let squares = [];
+    let square = 0;
+    let row = 1;
+    let col = 1; 
+
+    squares.push(<div className="board-row"></div>);
+
+    while(square < 9){
+      // console.log(`${square}, ${row}, ${col}`); //push this.renderSquare(square, row, col);
+      squares.push(this.renderSquare(square, row, col))
+
+      if(col >= 3){
+        col = 1;
+        row = row + 1; 
+
+        squares.push('</div>');
+
+        if(square < 8){
+          squares.push('<div className="board-row">');
+        }
+      } else{
+        col = col + 1;
+      }
+
+      square = square + 1;
+    }
+
     return (
       <div>
-        <div className="board-row">
+        {/* <div className="board-row">
           {this.renderSquare(0, 1, 1)}
           {this.renderSquare(1, 1, 2)}
           {this.renderSquare(2, 1, 3)}
@@ -32,7 +59,8 @@ class Board extends React.Component {
           {this.renderSquare(6, 3, 1)}
           {this.renderSquare(7, 3, 2)}
           {this.renderSquare(8, 3, 3)}
-        </div>
+        </div> */}
+        {squares}
       </div>
     );
   }
