@@ -16,51 +16,24 @@ class Board extends React.Component {
   }
 
   render() {
+    let rows = [];
     let squares = [];
-    let square = 0;
-    let row = 1;
-    let col = 1; 
+    let count = -1;
 
-    squares.push(<div className="board-row"></div>);
+    for(let row = 1; row <= 3; row++){
+      for(let col = 1; col <= 3; col++){
+        count = count + 1;
 
-    while(square < 9){
-      // console.log(`${square}, ${row}, ${col}`); //push this.renderSquare(square, row, col);
-      squares.push(this.renderSquare(square, row, col))
-
-      if(col >= 3){
-        col = 1;
-        row = row + 1; 
-
-        squares.push('</div>');
-
-        if(square < 8){
-          squares.push('<div className="board-row">');
-        }
-      } else{
-        col = col + 1;
+        squares.push(this.renderSquare(count, row, col));
       }
 
-      square = square + 1;
-    }
+    rows.push(<div className="board-row">{squares}</div>)
+    squares = []; //Reset squares for new row
+    };
 
     return (
       <div>
-        {/* <div className="board-row">
-          {this.renderSquare(0, 1, 1)}
-          {this.renderSquare(1, 1, 2)}
-          {this.renderSquare(2, 1, 3)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3, 2, 1)}
-          {this.renderSquare(4, 2, 2)}
-          {this.renderSquare(5, 2, 3)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6, 3, 1)}
-          {this.renderSquare(7, 3, 2)}
-          {this.renderSquare(8, 3, 3)}
-        </div> */}
-        {squares}
+        {rows}
       </div>
     );
   }
