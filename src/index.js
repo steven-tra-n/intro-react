@@ -48,7 +48,8 @@ class Game extends React.Component {
         coords: ''
       }],
       stepNumber: 0,
-      xIsNext: true
+      xIsNext: true,
+      order: 'asc'
     };
   }
   
@@ -69,9 +70,7 @@ class Game extends React.Component {
         coords: coords
       }]),
       stepNumber: history.length,
-      xIsNext: !this.state.xIsNext,
-      col: c,
-      row: r
+      xIsNext: !this.state.xIsNext
     });
   }
 
@@ -79,6 +78,12 @@ class Game extends React.Component {
     this.setState({
       stepNumber: step,
       xIsNext: (step % 2) === 0
+    });
+  }
+
+  toggleSort(){
+    this.setState({
+      order: this.state.order === 'asc' ? 'desc' : 'asc'
     });
   }
 
@@ -98,6 +103,10 @@ class Game extends React.Component {
       );
     });
 
+    if(this.state.order != 'asc'){
+      moves.sort((a, b) => {return b.key - a.key});
+    }
+
     let status;
     if(winner){
       status = 'Winner: ' + winner;
@@ -112,6 +121,7 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
+          <div><button onClick={() => this.toggleSort()}>Toggle Sort</button></div>
           <ol>{moves}</ol>
         </div>
       </div>
