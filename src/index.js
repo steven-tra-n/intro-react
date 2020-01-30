@@ -110,6 +110,8 @@ class Game extends React.Component {
     let status;
     if(winner.winner){
       status = 'Winner: ' + winner.winner;
+    } else if (this.state.stepNumber === 9){ //Max number of moves reached
+      status = 'DRAW';
     } else{
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
@@ -150,7 +152,8 @@ function calculateWinner(squares) {
     }
   }
   return {
-    winner: null
+    winner: null,
+    line: null
   };
 }
 
