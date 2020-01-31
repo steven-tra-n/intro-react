@@ -4,7 +4,7 @@ import './index.css';
 
 function Square(props){
   return(
-    <button className="square" onClick={props.onClick} style={props.highlight ? {backgroundColor:'red'} : {}}>
+    <button className="square" onClick={props.onClick} style={(props.highlight || props.isDraw) ? {backgroundColor:'red'} : {}}>
       {props.value}
     </button>
   )
@@ -12,7 +12,7 @@ function Square(props){
 
 class Board extends React.Component {
   renderSquare(i, c, r) {
-    return <Square value={this.props.squares[i]} onClick={() => this.props.onClick(i, c, r)} highlight={this.props.winLine && this.props.winLine.includes(i)}/>;
+    return <Square value={this.props.squares[i]} onClick={() => this.props.onClick(i, c, r)} highlight={this.props.winLine && this.props.winLine.includes(i)} isDraw={this.props.isDraw}/>;
   }
 
   render() {
@@ -108,9 +108,11 @@ class Game extends React.Component {
     }
 
     let status;
+    let isDraw = this.state.stepNumber === 9;
+
     if(winner.winner){
       status = 'Winner: ' + winner.winner;
-    } else if (this.state.stepNumber === 9){ //Max number of moves reached
+    } else if (isDraw){ //Max number of moves reached
       status = 'DRAW';
     } else{
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
@@ -119,7 +121,7 @@ class Game extends React.Component {
     return (
       <div className="game">
         <div className="game-board">
-          <Board squares={current.squares} onClick={(i, c, r) => this.handleClick(i, c, r)} winLine={winner.winLine}/>
+          <Board squares={current.squares} onClick={(i, c, r) => this.handleClick(i, c, r)} winLine={winner.winLine} isDraw={isDraw}/>
         </div>
         <div className="game-info">
           <div>{status}</div>
